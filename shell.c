@@ -26,7 +26,7 @@ void help_input_figure_dimensions() {
 		printf("type exit for quit, or help to display this message\n\n");
 	}
 	else if (selected_figure == 2) {
-		printf("input width of 3 sides, each separated with space ex: 20.5 30.1\n");
+		printf("input width of 3 sides, each separated with space ex: 20.5 30.1 40.7\n");
 		printf("type exit for quit, or help to display this message\n\n");
 	}
 	else if (selected_figure == 3) {
@@ -159,6 +159,16 @@ int input_figure_dimensions() {
 			printf("The field of a triangle with side a = %5.2lf, side b = %5.2lf and side c = %5.2lf is %5.2lf\n", side_c, side_b, side_a, field_);
 			return 0;
 		}
+		else if (selected_figure == 3 && selected_operation == 0 && trapeze_input_verificator(line, &side_a, &side_b, &side_c, &side_d) == 0) {
+			float perimeter_ = trapeze_calculate_perimeter(side_a, side_b, side_c, side_d);
+			printf("The perimeter of a trapeze with side a = %5.2lf, side b = %5.2lf, side c = %5.2lf and side d = %5.2lf is %5.2lf\n", side_a, side_b, side_c, side_d, perimeter_);
+			return 0;
+		}
+		else if (selected_figure == 3 && selected_operation == 1 && trapeze_input_verificator(line, &side_a, &side_b, &side_c, &side_d) == 0) {
+			float field_ = trapeze_calculate_field(side_a, side_b, side_c, side_d);
+			printf("The field of a trapeze with side a = %5.2lf, side b = %5.2lf, side c = %5.2lf and side d = %5.2lf is %5.2lf\n", side_a, side_b, side_c, side_d, field_);
+			return 0;
+		}
 	}
 }
 
@@ -176,11 +186,12 @@ int circle_input_verificator(char *line, float *radius) {
 	}
 }
 
-int rectangle_input_verificator(char* line, float* side_a, float* side_b) {
+int rectangle_input_verificator(char *line, float *side_a, float *side_b) {
 
-	char sample;
+	char *sample;
 	int jump = 0;
-	if (sample = strchr(line, ' ') == NULL) {
+	sample = strchr(line, ' ');
+	if (sample == NULL) {
 		printf("invalid input, try again or type help\n");
 		return -1;
 	}
@@ -200,25 +211,83 @@ int rectangle_input_verificator(char* line, float* side_a, float* side_b) {
 	return 0;
 }
 
-int triangle_input_verificator(char* line, float* side_a, float* side_b, float* side_c) {
-
-	char* sample = "A";
-	int jump = 0;
-	if (sample = strchr(line, ' ') == NULL) {
+int trapeze_input_verificator(char* line, float* side_a, float* side_b, float* side_c, float* side_d) {
+	if (side_a == side_b && side_b == side_c && side_c == side_d) {
 		printf("invalid input, try again or type help\n");
 		return -1;
 	}
+	char* sample;
+	int jump = 0;
+	sample = strchr(line, ' ');
+	if (sample == NULL) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	sample += 1;
 	jump = strlen(sample);
-	*side_a = atof(sample);
+	*side_a = atof(line, -jump);
 	if (*side_a <= 0) {
 		printf("invalid input, try again or type help\n");
 		return -1;
 	}
-	sample = line - jump;
-	if (sample = strchr(line, ' ') == NULL) {
+	line = sample;
+	sample = strchr(line, ' ');
+	if (sample == NULL) {
 		printf("invalid input, try again or type help\n");
 		return -1;
 	}
+	sample += 1;
+	jump = strlen(sample);
+	*side_b = atof(line, -jump);
+	if (*side_b <= 0) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	line = sample;
+	sample = strchr(line, ' ');
+	if (sample == NULL) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	sample += 1;
+	jump = strlen(sample);
+	*side_c = atof(line, -jump);
+	if (*side_c <= 0) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	*side_d = atof(sample);
+	if (*side_d <= 0) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	return 0;
+}
+
+
+int triangle_input_verificator(char *line, float *side_a, float *side_b, float *side_c) {
+
+	char *sample;
+	int jump = 0;
+	sample = strchr(line, ' ');
+	if (sample == NULL){
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	jump = strlen(sample);
+	*side_a = atof(line, -jump);
+	if (*side_a <= 0) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	jump = strlen(line) - strlen(sample);
+	line += (jump+1);
+	sample = strchr(line, ' ');
+	if (sample == NULL) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+
 	jump = strlen(sample);
 	*side_b = atof(sample);
 	if (*side_b <= 0) {

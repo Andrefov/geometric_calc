@@ -8,7 +8,7 @@ int main() {
 		figure_selector();
 		operation_selector();
 		input_figure_dimensions();
-		return 0;
+		
 	}
 	
 }
