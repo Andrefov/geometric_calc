@@ -77,7 +77,7 @@ int figure_selector(){
 			return 0;
 		}
 		else if (strncmp(line, "exit", 4) == 0) {
-			return 0;
+			return 1;
 		}
 		else if (strncmp(line, "help", 4) == 0) {
 			help_figure_selector();
@@ -100,12 +100,12 @@ int operation_selector() {
 			selected_operation = 0;
 			return 0;
 		}
-		else if (strncmp(line, "field", 5) == 0) {
+		else if (strncmp(line, "area", 5) == 0) {
 			selected_operation = 1;
-			return 0;
+			return 1;
 		}
 		else if (strncmp(line, "exit", 4) == 0) {
-			return 0;
+			break;
 		}
 		else if (strncmp(line, "help", 4) == 0) {
 			help_operation_selector();
@@ -135,8 +135,8 @@ int input_figure_dimensions() {
 			return 0;
 		}
 		else if (selected_figure == 0 && selected_operation == 1 && circle_input_verificator(line, &side_a) == 0) {
-			float field_ = circle_calculate_field(side_a);
-			printf("The field of a circle with radius = %5.2lf is %5.2lf\n", side_a, field_);
+			float area = circle_calculate_field(side_a);
+			printf("The area of a circle with radius = %5.2lf is %5.2lf\n", side_a, area);
 			return 0;
 		}
 		else if (selected_figure == 1 && selected_operation == 0 && rectangle_input_verificator(line, &side_a, &side_b) == 0) {
@@ -145,8 +145,8 @@ int input_figure_dimensions() {
 			return 0;
 		}
 		else if (selected_figure == 1 && selected_operation == 1 && rectangle_input_verificator(line, &side_a, &side_b) == 0) {
-			float field_ = rectangle_calculate_field(side_a, side_b);
-			printf("The field of a rectangle with side a = %5.2lf and side b = %5.2lf is %5.2lf\n", side_b, side_a, field_);
+			float area = rectangle_calculate_field(side_a, side_b);
+			printf("The area of a rectangle with side a = %5.2lf and side b = %5.2lf is %5.2lf\n", side_b, side_a, area);
 			return 0;
 		}
 		else if (selected_figure == 2 && selected_operation == 0 && triangle_input_verificator(line, &side_a, &side_b, &side_c) ==0) {
@@ -155,8 +155,8 @@ int input_figure_dimensions() {
 			return 0;
 		}
 		else if (selected_figure == 2 && selected_operation == 1 && triangle_input_verificator(line, &side_a, &side_b, &side_c) == 0) {
-			float field_ = triangle_calculate_field(side_a, side_b, side_c);
-			printf("The field of a triangle with side a = %5.2lf, side b = %5.2lf and side c = %5.2lf is %5.2lf\n", side_c, side_b, side_a, field_);
+			float area = triangle_calculate_field(side_a, side_b, side_c);
+			printf("The area of a triangle with side a = %5.2lf, side b = %5.2lf and side c = %5.2lf is %5.2lf\n", side_c, side_b, side_a, area);
 			return 0;
 		}
 		else if (selected_figure == 3 && selected_operation == 0 && trapeze_input_verificator(line, &side_a, &side_b, &side_c, &side_d) == 0) {
@@ -165,9 +165,12 @@ int input_figure_dimensions() {
 			return 0;
 		}
 		else if (selected_figure == 3 && selected_operation == 1 && trapeze_input_verificator(line, &side_a, &side_b, &side_c, &side_d) == 0) {
-			float field_ = trapeze_calculate_field(side_a, side_b, side_c, side_d);
-			printf("The field of a trapeze with side a = %5.2lf, side b = %5.2lf, side c = %5.2lf and side d = %5.2lf is %5.2lf\n", side_a, side_b, side_c, side_d, field_);
+			float area = trapeze_calculate_field(side_a, side_b, side_c, side_d);
+			printf("The area of a trapeze with side a = %5.2lf, side b = %5.2lf, side c = %5.2lf and side d = %5.2lf is %5.2lf\n", side_a, side_b, side_c, side_d, area);
 			return 0;
+		}
+		else if (strncmp(line, "exit", 4) == 0){
+			break;
 		}
 	}
 }
@@ -212,10 +215,7 @@ int rectangle_input_verificator(char *line, float *side_a, float *side_b) {
 }
 
 int trapeze_input_verificator(char* line, float* side_a, float* side_b, float* side_c, float* side_d) {
-	if (side_a == side_b && side_b == side_c && side_c == side_d) {
-		printf("invalid input, try again or type help\n");
-		return -1;
-	}
+	
 	char* sample;
 	int jump = 0;
 	sample = strchr(line, ' ');
@@ -258,6 +258,10 @@ int trapeze_input_verificator(char* line, float* side_a, float* side_b, float* s
 	}
 	*side_d = atof(sample);
 	if (*side_d <= 0) {
+		printf("invalid input, try again or type help\n");
+		return -1;
+	}
+	if (side_a == side_b && side_b == side_c && side_c == side_d) {
 		printf("invalid input, try again or type help\n");
 		return -1;
 	}

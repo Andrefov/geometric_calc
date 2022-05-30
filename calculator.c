@@ -33,7 +33,7 @@ float trapeze_calculate_field(float side_a, float side_b, float side_c, float si
 
 	
 	float height;
-	float field;
+	float area;
 	float a = side_a - side_b;
 	a = fabs(a);
 	float b;
@@ -45,11 +45,11 @@ float trapeze_calculate_field(float side_a, float side_b, float side_c, float si
 	c = pow(side_d, 2);
 	d = pow((a + b - c), 2);
 
-	field = sqrt((4 * a * b) - d) / 4;
+	area = sqrt((4 * a * b) - d) / 4;
 	a = sqrt(a, 2);
-	height = (field / a) * 2;
-	field = 0.5 * (side_a + side_b) * height;
-	return field;
+	height = (area / a) * 2;
+	area = 0.5 * (side_a + side_b) * height;
+	return area;
 
 }
 

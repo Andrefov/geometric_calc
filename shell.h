@@ -12,7 +12,7 @@ int input_figure_dimensions();
 
 int circle_input_verificator(char *line,float *radius);
 int rectangle_input_verificator(char *line, float *side_a, float *side_b);
-//int trapeze_input_verificator(char* line, float* side_a, float* side_b, float* side_c, float* _side_d);
+int trapeze_input_verificator(char* line, float* side_a, float* side_b, float* side_c, float* _side_d);
 int triangle_input_verificator(char *line, float *side_a, float *side_b, float *side_c);
 
 

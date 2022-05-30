@@ -5,10 +5,14 @@
 
 int main() {
 	for (;;) {
-		figure_selector();
-		operation_selector();
-		input_figure_dimensions();
-		
+		if (figure_selector() == 1) {
+			return 0;
+			break;
+		}
+		if (operation_selector() == 1)
+			return 0;
+		else
+			input_figure_dimensions();
 	}
 	
 }
